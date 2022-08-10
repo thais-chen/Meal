@@ -1,0 +1,22 @@
+import Heading from "../comps/Heading";
+import Form from "../comps/Form";
+import Grid from "../comps/Grid";
+import Navbar from "../comps/Navbar";
+export default function Ingredients(){
+
+    return (
+      <>
+        <Navbar
+            page="/"/>
+        <Heading
+            heading = "Ingredients"
+            info = "Search by etc"/>
+
+        <Form
+            label = "Search Ingredients..." />
+                < className="grid grid-cols-3 gap-4 place-content-center h-48 ...">
+                </
+        <Grid />
+      </>
+    );
+}
