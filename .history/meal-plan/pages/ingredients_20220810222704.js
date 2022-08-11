@@ -3,10 +3,9 @@ import Form from "../comps/Form";
 import Navbar from "../comps/Navbar";
 import { useState } from "react";
 
-
 export default function Ingredients() {
   const [form, setForm] = useState("");
-  const [theimg, setheimg] = useState({});
+  const [theimg, setheimg] = useState([]);
   const [imgArr, setImgArr] = useState([]);
 
   function handleChange(e) {
@@ -15,16 +14,13 @@ export default function Ingredients() {
 
   function getImgs() {
     fetch(`https://www.themealdb.com/images/ingredients/${form}.png`)
-      .then((resp) => resp)
+      .then((resp) => resp.json())
       .then((data) => {
         setheimg(data);
       });
-
   }
 
   const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
-  
-
 
   return (
     <>
@@ -39,14 +35,12 @@ export default function Ingredients() {
       <button
         onClick={() => {
           setImgArr((oldArray) => [...oldArray, form]);
-          getImgs();
          }}
       >
         Search
       </button>
          {/* create img div */}
        {thingsElements}
-       <div> <img src={theimg.url}/></div>
-     </>
+    </>
   );
 }

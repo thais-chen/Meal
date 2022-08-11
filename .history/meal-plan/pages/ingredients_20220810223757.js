@@ -2,7 +2,7 @@ import Heading from "../comps/Heading";
 import Form from "../comps/Form";
 import Navbar from "../comps/Navbar";
 import { useState } from "react";
-
+import nanoid
 
 export default function Ingredients() {
   const [form, setForm] = useState("");
@@ -23,7 +23,6 @@ export default function Ingredients() {
   }
 
   const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
-  
 
 
   return (

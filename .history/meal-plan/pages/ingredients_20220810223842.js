@@ -22,8 +22,7 @@ export default function Ingredients() {
 
   }
 
-  const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
-  
+  const thingsElements = imgArr.map((thing) => <p key={}>{thing}</p>);
 
 
   return (

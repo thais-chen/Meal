@@ -3,10 +3,9 @@ import Form from "../comps/Form";
 import Navbar from "../comps/Navbar";
 import { useState } from "react";
 
-
 export default function Ingredients() {
   const [form, setForm] = useState("");
-  const [theimg, setheimg] = useState({});
+  const [theimg, setheimg] = useState("");
   const [imgArr, setImgArr] = useState([]);
 
   function handleChange(e) {
@@ -19,11 +18,10 @@ export default function Ingredients() {
       .then((data) => {
         setheimg(data);
       });
-
+     table[]
   }
 
   const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
-  
 
 
   return (
@@ -46,7 +44,6 @@ export default function Ingredients() {
       </button>
          {/* create img div */}
        {thingsElements}
-       <div> <img src={theimg.url}/></div>
      </>
   );
 }

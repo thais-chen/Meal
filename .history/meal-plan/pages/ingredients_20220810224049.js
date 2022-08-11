@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function Ingredients() {
   const [form, setForm] = useState("");
-  const [theimg, setheimg] = useState({});
+  const [theimg, setheimg] = useState([]);
   const [imgArr, setImgArr] = useState([]);
 
   function handleChange(e) {
@@ -17,13 +17,13 @@ export default function Ingredients() {
     fetch(`https://www.themealdb.com/images/ingredients/${form}.png`)
       .then((resp) => resp)
       .then((data) => {
-        setheimg(data);
+        setheimg(data.url);
       });
 
   }
 
   const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
-  
+  const imgElements = theimg.map((img) => <img key={img} src={img} />);
 
 
   return (
@@ -47,6 +47,7 @@ export default function Ingredients() {
          {/* create img div */}
        {thingsElements}
        <div> <img src={theimg.url}/></div>
+       {imgElements}
      </>
   );
 }
