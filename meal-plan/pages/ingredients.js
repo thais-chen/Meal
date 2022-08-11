@@ -13,18 +13,14 @@ export default function Ingredients() {
   }
 
   function getImgs() {
-    imgArr.map((item) => {
-      fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${item}`)
-        .then((resp) => resp.json())
-        .then((data) => {
-          setheimg(data.meals);
-        });
-    });
-
-    setImgArr((oldArray) => [...oldArray, form]);
-    console.log(imgArr);
-    console.log(theimg);
+    fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${item}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setheimg(data.meals);
+      });
   }
+
+  const thingsElements = imgArr.map((thing) => <p key={thing}>{thing}</p>);
 
   return (
     <>
@@ -34,9 +30,18 @@ export default function Ingredients() {
         label="Search Ingredients..."
         onChange={handleChange}
         value={form.value}
-        clicked={getImgs}
         imgsrc={theimg}
       />
+      <button
+        onClick={() => {
+          setImgArr((oldArray) => [...oldArray, form]);
+         }}
+      >
+        Search
+      </button>
+
+         {/* create img div */}
+       {thingsElements}
     </>
   );
 }
