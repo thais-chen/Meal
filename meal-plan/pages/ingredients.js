@@ -6,6 +6,7 @@ import { useState } from "react";
 import Grid from "../comps/Grid";
 import styles from "../styles/Ingredients.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 export default function Ingredients() {
   const [form, setForm] = useState("");
@@ -15,41 +16,35 @@ export default function Ingredients() {
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
+  const [test,settest] = useState("")
 
   function handleChange(e) {
     setForm(e.target.value);
   }
-
-  const getImg = async () => {
-    const params = new URLSearchParams({ ingr: form });
-    const res = await fetch(
-      `https://edamam-food-and-grocery-database.p.rapidapi.com/parser?ingr=${params}`,
+  async function getResponse() {
+     const params = new URLSearchParams({ q: form });
+    const response = await fetch(
+      `https://yummly2.p.rapidapi.com/feeds/auto-complete?${params}`,
       {
         method: "GET",
         headers: {
           "X-RapidAPI-Key":
             "29a63a7413msh8378b61a2e11cf3p192e62jsn53d83f1651fe",
-          "X-RapidAPI-Host": "edamam-food-and-grocery-database.p.rapidapi.com",
+          "X-RapidAPI-Host": "yummly2.p.rapidapi.com",
         },
       }
     );
+    const data = await response.json();
+    console.log(data);
+    return data.searches[0];
+  }
 
-    if (!res.ok) {
-      throw res;
-    }
-    setForm("");
-    const data = await res.json();
-    return {
-      name: form,
-      url: data.parsed[0].food.image,
-      id: Math.random(),
-    };
-  };
+
+
   const clickHandler = async () => {
-    setForm("");
     try {
-      const newImg = await getImg(); // wait for getImg() to resolve
-      setTheImg(newImg); // set img state
+      const newImg = await getResponse(); // wait for getImg() to resolve
+      setTheImg(newImg);
       setImgArr((prev) => [...prev, newImg]); // add it to the array
     } catch (err) {
       console.error(err);
@@ -57,9 +52,8 @@ export default function Ingredients() {
   };
 
   const thingsElements = imgArr.map((thing) => (
-    <div key={thing.id}>
-      <img src={thing.url} />
-      <p>{thing.name}</p>
+    <div>
+      <p>{imgArr}fs</p>
     </div>
   ));
 
@@ -81,7 +75,7 @@ export default function Ingredients() {
         clicked={clickHandler}
         icon={faCamera}
       />
-      <div className="grid grid-cols-3 gap-4 my-4  ">{thingsElements}</div>
+      {thingsElements}
     </div>
   );
 }
