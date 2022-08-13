@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Form from '../comps/Form'
 import Link from "next/link";
+import Heading from '../comps/Heading';
 import { useState } from 'react';
 
 
@@ -23,12 +24,28 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-         <Form value={email.value} label="Pass" onChange={handleChange}/>
+      <main className="flex justify-center flex-col items-center">
+        <Heading heading="FitMeal" info="spend your time eating not deciding" />
+        <div className="flex justify-center flex-col items-center">
+          <Form
+            value={email.value}
+            label="Pass"
+            placeholder="Enter Email"
+            onChange={handleChange}
+          />
+          <Form
+            value={email.value}
+            label="Pass"
+            placeholder="Enter Email"
+            onChange={handleChange}
+          />
 
-        <Link href="/ingredients">
-          <a>j</a>
-        </Link>
+          <Link href="/ingredients">
+            <button className="rounded-md bg-indigo-500 w-1/2 ">
+              <a>Sign In</a>
+            </button>
+          </Link>
+        </div>
       </main>
 
       {/*       <footer className={styles.footer}>
