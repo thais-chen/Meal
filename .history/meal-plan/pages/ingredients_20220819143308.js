@@ -4,24 +4,27 @@ import Head from "next/head";
 import Navbar from "../comps/Navbar";
 import Dropdown from "../comps/Dropdown";
 import { useState } from "react";
- import styles from "../styles/Ingredients.module.css";
+import Grid from "../comps/Grid";
+import styles from "../styles/Ingredients.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
-  const [test, settest] = useState("");
+  const [test,settest] = useState("")
   const [dropdown, setDropdown] = useState([]);
 
   function handleChange(e) {
     setForm(e.target.value);
   }
   async function getResponse() {
-    const params = new URLSearchParams({ q: form });
+     const params = new URLSearchParams({ q: form });
     const response = await fetch(
       `https://yummly2.p.rapidapi.com/feeds/auto-complete?${params}`,
       {
@@ -35,28 +38,30 @@ export default function Ingredients() {
     );
     const data = await response.json();
 
+
+
     return data.ingredients;
   }
 
+
+
   const clickHandler = async (e) => {
     try {
-      setForm(e.target.value);
+        setForm(e.target.value);
       const newImg = await getResponse(); // wait for getImg() to resolve
       setTheImg(newImg);
-
-      setDropdown(newImg); // add it to the array
-
+      console.log(dropdown);
+     setDropdown(newImg) // add it to the array
     } catch (err) {
       console.error(err);
     }
   };
 
-  const thingsElements = imgArr.map((thing) => (
-    <div>
-      <p>{imgArr}fs</p>
+  const thingsElements = dropdown.map((thing,index) => (
+    <div key={index}>
+      <option>{thing}</option>
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>

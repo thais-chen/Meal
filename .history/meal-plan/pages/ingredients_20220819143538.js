@@ -4,13 +4,16 @@ import Head from "next/head";
 import Navbar from "../comps/Navbar";
 import Dropdown from "../comps/Dropdown";
 import { useState } from "react";
- import styles from "../styles/Ingredients.module.css";
+import Grid from "../comps/Grid";
+import styles from "../styles/Ingredients.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
@@ -43,20 +46,18 @@ export default function Ingredients() {
       setForm(e.target.value);
       const newImg = await getResponse(); // wait for getImg() to resolve
       setTheImg(newImg);
-
+      console.log(dropdown);
       setDropdown(newImg); // add it to the array
-
     } catch (err) {
       console.error(err);
     }
   };
 
-  const thingsElements = imgArr.map((thing) => (
-    <div>
-      <p>{imgArr}fs</p>
+  const thingsElements = dropdown.map((thing, index) => (
+    <div key={index}>
+      <option>{thing}</option>
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>

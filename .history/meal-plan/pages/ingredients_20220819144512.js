@@ -10,7 +10,7 @@ export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
@@ -51,12 +51,11 @@ export default function Ingredients() {
     }
   };
 
-  const thingsElements = imgArr.map((thing) => (
-    <div>
-      <p>{imgArr}fs</p>
+  const thingsElements = imgArr.map((thing, index) => (
+    <div key={index}>
+      <option>{thing}</option>
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>

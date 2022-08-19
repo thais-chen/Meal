@@ -10,7 +10,7 @@ export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);

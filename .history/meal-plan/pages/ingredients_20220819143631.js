@@ -10,7 +10,7 @@ export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
@@ -45,18 +45,17 @@ export default function Ingredients() {
       setTheImg(newImg);
 
       setDropdown(newImg); // add it to the array
-
+      console.log(dropdown);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const thingsElements = imgArr.map((thing) => (
-    <div>
-      <p>{imgArr}fs</p>
+  const thingsElements = dropdown.map((thing, index) => (
+    <div key={index}>
+      <option>{thing}</option>
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>

@@ -2,26 +2,28 @@ import Heading from "../comps/Heading";
 import Form from "../comps/Form";
 import Head from "next/head";
 import Navbar from "../comps/Navbar";
-import Dropdown from "../comps/Dropdown";
 import { useState } from "react";
- import styles from "../styles/Ingredients.module.css";
+import Grid from "../comps/Grid";
+import styles from "../styles/Ingredients.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 export default function Ingredients() {
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     name: "",
-    img: "",
+    url: "",
     id: "",
   });
   const [imgArr, setImgArr] = useState([]);
-  const [test, settest] = useState("");
+  const [test,settest] = useState("")
   const [dropdown, setDropdown] = useState([]);
 
   function handleChange(e) {
     setForm(e.target.value);
   }
   async function getResponse() {
-    const params = new URLSearchParams({ q: form });
+     const params = new URLSearchParams({ q: form });
     const response = await fetch(
       `https://yummly2.p.rapidapi.com/feeds/auto-complete?${params}`,
       {
@@ -34,18 +36,21 @@ export default function Ingredients() {
       }
     );
     const data = await response.json();
+    console.log(data);
+    setDropdown(data.searches)
 
-    return data.ingredients;
+    return data.searches[0];
   }
+
+
 
   const clickHandler = async (e) => {
     try {
-      setForm(e.target.value);
+        setForm(e.target.value);
       const newImg = await getResponse(); // wait for getImg() to resolve
       setTheImg(newImg);
-
-      setDropdown(newImg); // add it to the array
-
+      console.log(dropdown);
+      setImgArr((prev) => [...prev, newImg]); // add it to the array
     } catch (err) {
       console.error(err);
     }
@@ -56,7 +61,6 @@ export default function Ingredients() {
       <p>{imgArr}fs</p>
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>
@@ -69,14 +73,14 @@ export default function Ingredients() {
       <Heading heading="Ingredients" info="Search by etc" />
       <Form
         label="Search Ingredients..."
-        onChange={clickHandler}
+        onChange={handleChange}
         value={form}
         imgsrc={theimg}
         placeholder="Search Ingredients..."
         clicked={clickHandler}
         icon={faCamera}
       />
-      <Dropdown ingredients={dropdown} />
+      {thingsElements}
     </div>
   );
 }
