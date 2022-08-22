@@ -1,6 +1,7 @@
-import firebase from "firebase./app";
-import "firebase/firestore";
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyC8LXWNV5OhE7HbklA4vq8zgXzM_feze3M",
   authDomain: "mealease-7bf7f.firebaseapp.com",
@@ -9,10 +10,11 @@ const firebaseConfig = {
   storageBucket: "mealease-7bf7f.appspot.com",
   messagingSenderId: "792708407205",
   appId: "1:792708407205:web:ffb058b5badb6eee1c124c",
-  measurementId: "G-3D6BSF0991"
+  measurementId: "G-3D6BSF0991",
 };
-if(!firebase.apps.length) {
-firebase.initializeApp(firebaseConfig);
-}
-export const db = firebase.firestore();
-export const auth = firebase.auth();
+
+const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+export const auth = getAuth();
+ 

@@ -7,7 +7,14 @@ import Heading from '../comps/Heading';
 import { useState } from 'react';
 import Recipes from './recipes';
 
- 
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import {auth} from '../configs'
+import Register from '../auth/Register';
+import SignIn from '../auth/SignIn';
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import CurrentUser from '../auth/CurrentUser';
+
 export default function Home() {
     const [email,setEmail] = useState(" ")
 
@@ -53,20 +60,10 @@ export default function Home() {
             </button>
           </Link>
         </div>
+        <Register />
+        <SignIn />
+  
       </main>
-
-      {/*       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer> */}
     </div>
   );
 }
