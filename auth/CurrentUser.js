@@ -1,10 +1,9 @@
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import SignIn from "./SignIn";
 import { auth } from "../configs";
 import { useState } from "react";
-
-
+import { useRouter } from "next/router";
 const login = () => {
   signInWithEmailAndPassword(auth, "test@test.com", "password");
 };
@@ -14,6 +13,7 @@ const logout = () => {
 
 const CurrentUser = () => {
   const [user, loading, error] = useAuthState(auth);
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -37,7 +37,7 @@ const CurrentUser = () => {
       </div>
     );
   }
-  return <button onClick={login}>Log in</button>;
+  return <button onClick={() => {router.push("/"); }}>Log in</button>;
 };
 
 export default CurrentUser;

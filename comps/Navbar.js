@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAnglesLeft,faCircleUser  } from "@fortawesome/free-solid-svg-icons";
+import CurrentUser from "../auth/CurrentUser";
 
 const Navbar = (props) => {
   return (
@@ -25,6 +26,7 @@ const Navbar = (props) => {
           <a></a>
         </FontAwesomeIcon>
       </Link>
+      <CurrentUser />
     </div>
   );
 };

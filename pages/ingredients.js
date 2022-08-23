@@ -5,19 +5,38 @@ import Navbar from "../comps/Navbar";
 import Recipes from "./recipes";
 import Dropdown from "../comps/Dropdown";
 import { useState } from "react";
- import styles from "../styles/Ingredients.module.css";
+import styles from "../styles/Ingredients.module.css";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  doc,
+  setDoc,
+  updateDoc,
+  serverTimestamp,
+  getDoc,
+  collection,
+  arrayUnion,
+} from "firebase/firestore";
+import { db, auth } from "../configs";
+
+
 
 export default function Ingredients() {
+
+
   const [form, setForm] = useState("");
   const [theimg, setTheImg] = useState({
     label: "",
     image: "",
-    id: "",
+    timestamp: "",
   });
+  const auth = getAuth();
+  const user = auth.currentUser;
   const [imgArr, setImgArr] = useState([]);
   const [test, settest] = useState("");
   const [dropdown, setDropdown] = useState([]);
+
+
 
   function handleChange(e) {
     setForm(e.target.value);
@@ -35,13 +54,19 @@ export default function Ingredients() {
         },
       }
     );
-   const data = await response.json();
 
-    //  setTheImg({
-    //    label: data.parsed.label,
-    //    img: data.parsed.image,
-    //    id: Math.random(),
-    //  });
+    const data = await response.json();
+
+      const docRef = doc(db, "users",user.uid );
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
     return {
       label: data.parsed[0].food.label,
       image: data.parsed[0].food.image,
@@ -55,7 +80,19 @@ export default function Ingredients() {
       const newImg = await getResponse(); // wait for getImg() to resolve
       setTheImg(newImg);
 
-      setImgArr((prev) => [...prev, newImg]); // add it to the array
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+
+          const uid = user.uid;
+        const arrRef = doc(db, "users", uid);
+           updateDoc(arrRef, {
+             ingredients: arrayUnion({ name: form, image: newImg.image }),
+           });
+
+        }
+      });
+
+      setImgArr((prev) => [...prev, newImg]);  
       console.log(imgArr);
     } catch (err) {
       console.error(err);
@@ -63,12 +100,11 @@ export default function Ingredients() {
   };
 
   const thingsElements = imgArr.map((thing) => (
-    <div>
+    <div key={Math.random()}>
       <p>{thing.label}</p>
       <img src={thing.image} alt={thing.label} />
     </div>
   ));
-
 
   return (
     <div className={`${styles.container} px-5`}>

@@ -21,15 +21,12 @@ const Register = () => {
     );
   }
   if (loading) {
-    router.push("/ingredients");
+     <div>
+       <p>Load: </p>
+     </div>;
   }
   if (user) {
-    return (
-      <Link href="/recipes">
-
-      </Link>
-
-    );
+    router.push("/ingredients");
   }
   return (
     <div className="App">
