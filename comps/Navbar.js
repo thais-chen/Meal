@@ -1,32 +1,23 @@
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft,faCircleUser  } from "@fortawesome/free-solid-svg-icons";
+
 import CurrentUser from "../auth/CurrentUser";
+import styles from "../styles/Navbar.module.scss";
 
 const Navbar = (props) => {
   return (
-    <div className={`flex justify-between pt-6`}>
-      <Link href={`${props.page}`}>
-        <FontAwesomeIcon
-          icon={faAnglesLeft}
-          size="lg"
-          style={{ color: "blue" }}
-        >
-          <a></a>
-        </FontAwesomeIcon>
+    <div className={styles.container}>
+      <a> Meal-Ease </a>
+
+      <Link href={`${props.favoritesPg}`}>
+        <a>Favorites</a>
+      </Link>
+      <Link href={`${props.ingredients}`}>
+        <a>Ingredients</a>
       </Link>
 
-      <Link href={`${props.page}`}>
-        <FontAwesomeIcon
-          icon={faCircleUser}
-          size="lg"
-          style={{ color: "blue" }}
-        >
-          {" "}
-          <a></a>
-        </FontAwesomeIcon>
-      </Link>
-      <CurrentUser />
+      <div className={styles.user}>
+        <CurrentUser />
+      </div>
     </div>
   );
 };

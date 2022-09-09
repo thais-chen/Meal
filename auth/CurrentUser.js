@@ -4,11 +4,13 @@ import SignIn from "./SignIn";
 import { auth } from "../configs";
 import { useState } from "react";
 import { useRouter } from "next/router";
+
 const login = () => {
   signInWithEmailAndPassword(auth, "test@test.com", "password");
 };
 const logout = () => {
   signOut(auth);
+
 };
 
 const CurrentUser = () => {
@@ -32,12 +34,30 @@ const CurrentUser = () => {
   if (user) {
     return (
       <div>
-        <p>Current User: {user.email}</p>
-        <button onClick={logout}>Log out</button>
+        <button onClick={() => {
+          logout()
+          router.push("/")
+        }} style={{textDecoration: "none", color:"black", fontSize:"1rem", fontWeight:"bold"
+
+        }}>Log out</button>
       </div>
     );
   }
-  return <button onClick={() => {router.push("/"); }}>Log in</button>;
+  return (
+    <button
+      style={{
+        textDecoration: "none",
+        color: "black",
+        fontSize: "1rem",
+        fontWeight: "bold",
+      }}
+       onClick={() => {
+        router.push("/");
+      }}
+    >
+      Log in
+    </button>
+  );
 };
 
 export default CurrentUser;

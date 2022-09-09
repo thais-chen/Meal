@@ -1,50 +1,98 @@
 
+
+import {
+  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
 import { auth } from "../configs";
 import { useState } from "react";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
+import styles from "../styles/SignIn.module.scss";
+import Image from "next/image";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  arrayUnion,
+  setDoc,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../configs";
 
-import Link from 'next/link';
-
-const Register = () => {
+const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState(false);
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const router = useRouter();
 
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
+  async function loadIngredients() {
+
+   const docRef = doc(db, "users", auth.currentUser.uid);
+    const docSnap = await getDoc(docRef, "ingredients");
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        //nextjs Image component example
+        // <Image
+        //   src="/images/ingredients/avocado.png"
+        //   alt="avocado"
+        //   width={50}<Image  src={"../public/camera.png"} alt="camera" />
+
+        //set image in public folder as image property in ingredients object
+
+        ingredients: arrayUnion({
+          image: "https://cdn-icons-png.flaticon.com/512/685/685655.png",
+          name: "Upload Photo",
+          index: "0",
+        }),
+      });
+       router.push("/ingredients");
+    }
+    else
+    {
+      await setDoc(docRef, {
+        ingredients: arrayUnion({
+          image: "https://cdn-icons-png.flaticon.com/512/685/685655.png",
+          name: "Upload Photo",
+          index: "0",
+        }),
+      });
+       router.push("/ingredients");
+    }
   }
-  if (loading) {
-     <div>
-       <p>Load: </p>
-     </div>;
-  }
-  if (user) {
-    router.push("/ingredients");
-  }
+
   return (
-    <div className="App">
+    <div className={styles.container}>
       <input
         type="email"
         value={email}
+        placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
         value={password}
+        placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={() => createUserWithEmailAndPassword(email, password)}>
-        Register
+      <button onClick={() =>{
+         createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            if (auth.currentUser) {
+              loadIngredients();
+            }
+            else {
+              setErrorMsg(true);
+            }
+          })
+        }
+         }>
+        Sign Up
       </button>
-
-    </div>
+      {errorMsg && <p style={{color:"red"}}>Invalid email or password</p>}
+      </div>
   );
 };
 export default Register;
