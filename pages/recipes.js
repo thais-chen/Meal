@@ -7,7 +7,7 @@ import Router from "next/router";
  import { db, auth } from "../configs";
 import styles from "../styles/Recipes.module.scss";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import Favorite from "../comps/Favorite";
 //icons
 //import faHeart from regular faHeart
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
@@ -131,17 +131,6 @@ export default function Recipes() {
       .catch((err) => console.error(err));
   }
 
-  function sendProps() {
-    console.log(obj);
-    Router.push({
-      pathname: "/favorites",
-      query: {
-        obj,
-        ugh,
-      },
-    });
-  }
-
   const recipeItem = recipesApi.map((recipe, index) => {
     return (
       <div key={index} className={styles.recipeItem}>
@@ -155,30 +144,14 @@ export default function Recipes() {
         />
         <div className="flex justify-between">
           <p className={styles.recipeTitle}>{recipe.title}</p>
-
-          <div onClick={() => addFavorite(recipe, index)}>
-            {recipe.fave ? (
-              <FontAwesomeIcon
-                icon={faSolidHeart}
-                //faLightHeart
-
-                style={{
-                  color: "darkblue",
-                  cursor: "pointer",
-                  fontSize: "1rem",
-                }}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faRegular}
-                style={{
-                  color: "darkblue",
-                  cursor: "pointer",
-                  fontSize: "1rem",
-                }}
-              />
-            )}
-          </div>
+          <Favorite
+            recipe={recipe}
+            id={index}
+            isFave={recipe.fave}
+            docRef={docRef}
+            setIsFave={setIsFave}
+            recipesApi={recipesApi}
+          />
         </div>
       </div>
     );
@@ -187,7 +160,7 @@ export default function Recipes() {
   async function addFavorite(recipe, id) {
     const docSnap = await getDoc(docRef);
 
-    const addFavetoDB = async () => {
+     const addFavetoDB = async () => {
       if (docSnap.exists()) {
         await updateDoc(docRef, {
           favorites: arrayUnion(recipe),
@@ -212,12 +185,9 @@ export default function Recipes() {
     if (recipesApi[id].fave === false) {
       recipesApi[id].fave = true;
       setIsFave(true);
-
-      console.log("added to favorites");
       addFavetoDB();
     } else {
       setIsFave(false);
-      console.log("removed from favorites");
       recipesApi[id].fave = false;
       removeFavfromDB();
     }

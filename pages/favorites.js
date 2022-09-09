@@ -3,6 +3,7 @@ import { auth } from "../configs";
 import { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import Head from "next/head";
 import styles from "../styles/Favorites.module.scss";
 import {
@@ -11,14 +12,14 @@ import {
 
 } from "firebase/firestore";
 import { db } from "../configs";
-
+import Favorite from "../comps/Favorite";
 import Navbar from "../comps/Navbar";
 
 export default function Favorites() {
   const [faveArray, setFaveArray] = useState([]);
   const [docRef, setDocRef] = useState("");
   const [isUser, setIsUser] = useState(false);
-
+  const [isFave, setIsFave] = useState(true);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -68,16 +69,25 @@ export default function Favorites() {
   }
   const favoritesGrid = faveArray.map((item, id) => {
     return (
-      <div
-        key={id}
-        className={styles.recipeItem}
-        onClick={(e) => {
-          e.stopPropagation();
-          recipeLink(item.id);
-        }}
-      >
-        <img src={item.image} />
-        <p className={styles.recipeTitle}>{item.title}</p>
+      <div key={id} className={styles.recipeItem}>
+        <img
+          src={item.image}
+          onClick={(e) => {
+            e.stopPropagation();
+            recipeLink(item.id);
+          }}
+        />
+        <div className="flex justify-between">
+          <p className={styles.recipeTitle}>{item.title}</p>
+          <Favorite
+            recipe={item}
+            id={id}
+            isFave={item.fave}
+            docRef={docRef}
+            setIsFave={setIsFave}
+            recipesApi={faveArray}
+          />
+        </div>
       </div>
     );
   });
@@ -91,7 +101,7 @@ export default function Favorites() {
       </Head>
       <Navbar favoritesPg={"/favorites"} ingredients={"/ingredients"} />
       <div className={styles.main}>
-        <h1>Ingredients</h1>
+        <h1>Favorites</h1>
         <div
           className={`${styles.favorites} grid md:grid-cols-4 gap-4 mt-4 mb-4 pb-24 justify-items-center `}
 >

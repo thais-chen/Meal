@@ -19,21 +19,6 @@ export default function Home() {
         />
         <div className={styles.auth}>
           <Register />
-          <p>
-            Already have an account?{" "}
-            <a
-              style={{
-                textDecoration: "underline",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                router.push("/");
-              }}
-            >
-              {" "}
-              Sign in.
-            </a>
-          </p>
         </div>
       </main>
     </div>

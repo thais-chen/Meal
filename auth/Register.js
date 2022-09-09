@@ -34,14 +34,6 @@ const Register = (props) => {
     const docSnap = await getDoc(docRef, "ingredients");
     if (docSnap.exists()) {
       await updateDoc(docRef, {
-        //nextjs Image component example
-        // <Image
-        //   src="/images/ingredients/avocado.png"
-        //   alt="avocado"
-        //   width={50}<Image  src={"../public/camera.png"} alt="camera" />
-
-        //set image in public folder as image property in ingredients object
-
         ingredients: arrayUnion({
           image: "https://cdn-icons-png.flaticon.com/512/685/685655.png",
           name: "Upload Photo",
@@ -77,22 +69,37 @@ const Register = (props) => {
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={() =>{
-         createUserWithEmailAndPassword(email, password)
-          .then(() => {
+      <button
+        onClick={() => {
+          createUserWithEmailAndPassword(email, password).then(() => {
             if (auth.currentUser) {
               loadIngredients();
-            }
-            else {
+            } else {
               setErrorMsg(true);
             }
-          })
-        }
-         }>
+          });
+        }}
+      >
         Sign Up
       </button>
-      {errorMsg && <p style={{color:"red"}}>Invalid email or password</p>}
-      </div>
+      {errorMsg && <p style={{ color: "red" }}>Invalid email or password</p>}
+
+      <p>
+        Already have an account?{" "}
+        <a
+          style={{
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            router.push("/");
+          }}
+        >
+          {" "}
+          Sign In
+        </a>
+      </p>
+    </div>
   );
 };
 export default Register;

@@ -75,6 +75,7 @@ export default function Ingredients() {
     };
   }
   const clickHandler = async (e) => {
+    setForm("");
     e.preventDefault();
     //prevents the user from adding the same ingredient twice
     const check = imgArr.find((item) => item.name === form);
@@ -140,20 +141,10 @@ export default function Ingredients() {
     setSelectedIngredients([...selectedIngredients, thing.name]);
   };
 
-  const deleteBtn = async (id) => {
-    const uid = auth.currentUser.uid;
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef, "ingredients");
-    const arr = docSnap.data().ingredients;
-    const newArr = arr.filter((item) => item.index !== id);
-    await updateDoc(docRef, "ingredients", newArr);
-    setImgArr(newArr);
+
+  const editBtn = () => {
+    isShown ? setIsShown(false) : setIsShown(true);
   };
-
-  const editBtn = ( ) => {
-
-      isShown ? setIsShown(false) : setIsShown(true)
-    }
 
   const thingsElements = imgArr.map((thing, id) => {
     return (
@@ -164,10 +155,9 @@ export default function Ingredients() {
           border: myStyle[`${id}`] ? "5px solid #36175E" : "3px solid #cfc1e9",
         }}
         onClick={() => selectItem(thing, id)}
-      onMouseEnter={() => {
+        onMouseEnter={() => {
           setThingsElementsDiv(id);
         }}
-
       >
         <img src={thing.image} alt={thing.name} />
         {isShown && id === thingsElementsDiv && (
@@ -197,18 +187,17 @@ export default function Ingredients() {
           info="select the ingredients you would like to use"
         />
         <div className={styles.formContainer}>
-                  <Form
-          name="Search Ingredients..."
-          onChange={handleChange}
-          value={form}
-          placeholder="Search Ingredients..."
-          clicked={clickHandler}
-          editBtn={editBtn}
-          isShown={isShown}
-          icon={faSquarePlus}
-        />
-         </div>
-
+          <Form
+            name="Search Ingredients..."
+            onChange={handleChange}
+            value={form}
+            placeholder="Search Ingredients..."
+            clicked={clickHandler}
+            editBtn={editBtn}
+            isShown={isShown}
+            icon={faSquarePlus}
+          />
+        </div>
 
         <div
           className={`grid lg:w-9/12 grid-cols-3 lg:grid-cols-5  gap-4 pt-24 mb-12 pb-24 ${styles.ingredientContainer}`}

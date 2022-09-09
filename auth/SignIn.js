@@ -6,6 +6,7 @@ import { auth } from "../configs";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/SignIn.module.scss";
+import testSignIn from "./testSignin";
 import {
   doc,
   updateDoc,
@@ -60,7 +61,8 @@ const SignIn = (props) => {
         onClick={() => {
           signInWithEmailAndPassword(email, password).then(() => {
             if (auth.currentUser) {
-            loadIngredients();} else {
+              loadIngredients();
+            } else {
               setErrorMsg(true);
             }
           });
@@ -68,7 +70,21 @@ const SignIn = (props) => {
       >
         Sign In
       </button>
-      {errorMsg && <p style={{color:"red"}}>Incorrect email or password</p>}
+      <button
+        onClick={() => {
+          signInWithEmailAndPassword("octopus123@outlook.com", "squirtle").then(
+            () => {
+              if (auth.currentUser) {
+                loadIngredients();
+              }
+            }
+          );
+        }}
+      >
+        {" "}
+        DEMO{" "}
+      </button>
+      {errorMsg && <p style={{ color: "red" }}>Incorrect email or password</p>}
       <p>
         Don't have an account?{" "}
         <a
