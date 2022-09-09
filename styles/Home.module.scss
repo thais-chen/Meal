@@ -1,0 +1,38 @@
+.container{
+  width:100%;
+  height:100%;
+  background-image: url(../public/homebg.jpg);
+  background-size: cover;
+  h1{
+    font-size: 3rem;
+    margin-top: 2rem;
+  }
+}
+.mainContent{
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-around;
+
+}
+@media screen and (min-width: 600px) {
+  .mainContent{
+    width: 500px;
+    background-color: white;
+  }
+
+}
+@media screen and (max-width: 600px) {
+  .mainContent{
+    width: 100%;
+
+     background-color: white;
+    }
+
+}
+.auth{
+  height: 50vh;
+}

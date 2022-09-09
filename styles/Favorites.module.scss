@@ -1,0 +1,36 @@
+@use 'base';
+.container{
+
+       h1{
+            @include base.heading;
+      }
+}
+.main{
+     margin-right: 4rem;
+    margin-left: 4rem;
+    margin-top: 4rem;
+
+}
+@media screen and (min-width:768px) {
+     .main{
+     margin-right: 7rem;
+    margin-left: 7rem;
+    margin-top: 7rem;
+     }
+     .recipeItem{
+      margin-top: 3.4rem;
+     }
+     .favorites{
+          width: 80%;
+          margin: auto;
+
+     }
+
+}
+
+.recipeTitle{
+@include base.recipeTitle;
+}
+.recipeItem{
+ @include base.recipeItem;
+}

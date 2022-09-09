@@ -1,0 +1,44 @@
+@use 'base';
+.main {
+  margin-right: 2rem;
+  margin-left: 2rem;
+  margin-top: 4rem;
+}
+
+.ingredientItem {
+  border: 2px solid rgb(240, 4, 4);
+  border-radius: 25px;
+  max-width: 300px;
+
+  img{
+    border-radius: 20px;
+  }
+}
+.recipeBtn {
+  position: sticky;
+  width: 50%;
+  bottom: 30px;
+  margin:  auto;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  background-color: #360259;
+  text-align: center;
+  border-radius: 10px;
+  color: white;
+}
+.ingredientContainer{
+  margin: auto;
+}
+@media screen and (min-width: 768px) {
+  .main {
+    margin-right: 7rem;
+    margin-left: 7rem;
+    margin-top: 7rem;
+  }
+}
+.container {
+  h1 {
+   @include base.heading;
+  }
+}

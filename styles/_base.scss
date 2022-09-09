@@ -1,0 +1,30 @@
+@mixin  recipeItem  {
+  img{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 25px;
+    margin: auto;
+    cursor: pointer;
+  }
+  font-family:'Hind Vadodara', sans-serif;
+  font-size: 1rem;
+   
+
+}
+
+@mixin recipeTitle  {
+  font-family:'Hind Vadodara', sans-serif;
+  font-size:  1rem;
+  color: darkblue;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+@mixin mainContainer {
+width: 70%;
+margin: auto;
+}
+@mixin heading{
+      font-size: 3rem;
+       color: darkblue;
+       margin-bottom: 2rem;
+}
